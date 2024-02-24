@@ -1,15 +1,16 @@
 const BooksService = require('./books.service');
+const { generateManyBooks } = require('./../fakes/books.fake');
 
 // jest fn es quien nos deja hace mock, test d comportamiento, simular y espiar..
 const mockGetAll = jest.fn();
 
 // para simular datos que devolveria una base de datos..
-const fakeBooks = [
+/* const fakeBooks = [
   {
     _id: 1,
     name: 'Harry Potter',
   },
-];
+]; */
 
 // esto estaria suplantando a nuestra clase MongoLib
 // para ello hay q suplantar todo los comportamiento,
@@ -41,15 +42,16 @@ describe('Test for BooksService', () => {
   describe('Test for getBooks', () => {
     test('should return a list books', async () => {
       // Arrange: aca tengo mokear todo las funcionalidades que implica ir a la bd
+      // generamos los books utilizando fakes
+      const fakeBooks = generateManyBooks(50);
       // como tenemos q espiar en el metodo getAll
       mockGetAll.mockResolvedValue(fakeBooks); // aca estoy diciendo q resuelva el faceBooks
 
       // act
       const books = await service.getBooks({});
-      console.log(books);
 
       // assert
-      expect(books.length).toEqual(1);
+      expect(books.length).toEqual(fakeBooks.length);
       expect(mockGetAll).toHaveBeenCalled();
       // books viene del servicio, y  {} de la instancia d arriba
       expect(mockGetAll).toHaveBeenCalledWith('books', {});
@@ -57,27 +59,15 @@ describe('Test for BooksService', () => {
 
     test('should return a list books old name', async () => {
       // Arrange: aca le estoy dando otro dato al mokegetall
+      const fakeBooks = generateManyBooks(3);
       //  osea que resuelva este  []
-      mockGetAll.mockResolvedValue([
-        {
-          _id: 1,
-          name: 'Harry Potter II',
-        },
-        {
-          _id: 2,
-          name: 'Superman',
-        },
-        {
-          _id: 3,
-          name: 'Batman',
-        },
-      ]);
+      mockGetAll.mockResolvedValue(fakeBooks);
 
       // act
       const books = await service.getBooks({});
 
       // assert
-      expect(books[0].name).toEqual('Harry Potter II');
+      expect(books[0].name).toEqual(fakeBooks[0].name);
       expect(books.length).toEqual(3);
       expect(mockGetAll).toHaveBeenCalled();
       expect(mockGetAll).toHaveBeenCalledTimes(1);
