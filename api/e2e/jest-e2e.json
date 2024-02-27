@@ -1,0 +1,10 @@
+{
+// Como van a ser nuestros archivos, nuestro stack.
+  "moduleFileExtensions": ["js"],
+  // Cuál es nuestra ruta principal
+  "rootDir": ".",
+	// Cuál es el ambiente de pruebas.
+  "testEnvironment": "node",
+	// Expresiónregular para reconocer pruebas
+  "testRegex": ".e2e.js$"
+}
