@@ -11,3 +11,4 @@ Mocks: Stubs + Spies, pueden estar pre-programados para enviar las respuestas su
 librerias:
 https://jestjs.io/
 https://fakerjs.dev/
+https://www.npmjs.com/package/supertest
